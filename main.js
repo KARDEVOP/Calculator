@@ -18,38 +18,81 @@ document.addEventListener('DOMContentLoaded', (event) =>
 	const clearButton = document.querySelector(".clear");
 	const calculateButton = document.querySelector(".calculate");
 	const dotButton = document.querySelector(".dot");
+	const backSpaceButton = document.querySelector(".backSpace"); // Added backSpace button
 	const textbox = document.querySelector(".textbox");
 
 	numberButtons.forEach(button => {
 	  button.addEventListener("click", () => {
-	    textbox.style.border = "2px solid black";
-	    if (isOperate) {
-	      values.push(button.textContent);
-	      display(button.textContent); // Display current value
-	      isOperate = false; //Reset operate flag
-	      hasDecimal = false; // Reset decimal flag when starting a new number
-	    } else {
-	      values[values.length - 1] += button.textContent;
-	      display(button.textContent); // Display  value
-	    }
+	    handleNumberInput(button.textContent);
 	  });
 	});
 
 	operatorButtons.forEach(button => {
 	  button.addEventListener("click", () => {
-	    if (!isOperate) {
-	      textbox.style.border = "2px solid black";
-	      operators.push(button.textContent); // Assign the text content of the clicked button to operator
-	      display(button.textContent); // Display the operator
-	      isOperate = true;
-	      hasDecimal = false; // Reset decimal flag when an operator is added
-	    } else {
-	      textbox.style.border = "2px solid red";
-	    }
+	    handleOperatorInput(button.textContent);
 	  });
 	});
 
 	dotButton.addEventListener("click", () => {
+	  handleDotInput();
+	});
+
+	calculateButton.addEventListener("click", () => {
+	  handleCalculate();
+	});
+
+	clearButton.addEventListener("click", () => {
+	  handleClear();
+	});
+
+	// Implement backSpace functionality
+	backSpaceButton.addEventListener("click", () => {
+	  handleBackspace();
+	});
+
+	// Keyboard support
+	document.addEventListener('keydown', (e) => {
+	  if (e.key >= 0 && e.key <= 9) { // Number keys
+	    handleNumberInput(e.key);
+	  } else if (e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/') { // Operator keys
+	    handleOperatorInput(e.key);
+	  } else if (e.key === '.') { // Dot key
+	    handleDotInput();
+	  } else if (e.key === 'Enter' || e.key === '=') { // Enter or equals key
+	    handleCalculate();
+	  } else if (e.key === 'Backspace') { // Backspace key
+	    handleBackspace();
+	  } else if (e.key.toUpperCase() === 'C') { // Clear key
+	    handleClear();
+	  }
+	});
+
+	function handleNumberInput(number) {
+	  textbox.style.border = "2px solid black";
+	  if (isOperate) {
+	    values.push(number);
+	    display(number); // Display current value
+	    isOperate = false; //Reset operate flag
+	    hasDecimal = false; // Reset decimal flag when starting a new number
+	  } else {
+	    values[values.length - 1] += number;
+	    display(number); // Display value
+	  }
+	}
+
+	function handleOperatorInput(operator) {
+	  if (!isOperate) {
+	    textbox.style.border = "2px solid black";
+	    operators.push(operator); // Assign the operator
+	    display(operator); // Display the operator
+	    isOperate = true;
+	    hasDecimal = false; // Reset decimal flag when an operator is added
+	  } else {
+	    textbox.style.border = "2px solid red";
+	  }
+	}
+
+	function handleDotInput() {
 	  if (!hasDecimal) {
 	    if (isOperate || values.length === 0) {
 	      values.push("0."); // Start a new number with "0."
@@ -62,9 +105,9 @@ document.addEventListener('DOMContentLoaded', (event) =>
 	    display("."); // Display the decimal point
 	    hasDecimal = true; // Set the flag to true after adding a decimal point
 	  }
-	});
+	}
 
-	calculateButton.addEventListener("click", () => {
+	function handleCalculate() {
 	  if (values.length > 1 && operators.length > 0) {
 	    let result = calculateResult(values, operators);
 	    textbox.value = "";
@@ -77,20 +120,37 @@ document.addEventListener('DOMContentLoaded', (event) =>
 	  } else {
 	    textbox.style.border = "2px solid red";
 	  }
-	});
+	}
 
-	clearButton.addEventListener("click", () => {
+	function handleClear() {
 	  values = [];
 	  operators = [];
 	  textbox.value = "";
-    isOperate = true; // Corrected to properly reset the isOperate flag
+	  isOperate = true; // Corrected to properly reset the isOperate flag
 	  hasDecimal = false; // Reset the decimal flag
 	  display("");
-	});
+	}
+
+	function handleBackspace() {
+	  if (!isOperate && values.length > 0) {
+	    let currentNumber = values[values.length - 1];
+	    if (currentNumber.length > 1) {
+	      values[values.length - 1] = currentNumber.slice(0, -1); // Remove the last digit
+	    } else {
+	      values.pop(); // Remove the last number if it's a single digit
+	      isOperate = true; // If we remove a number, the next input could be an operator
+	    }
+	    textbox.value = textbox.value.slice(0, -1); // Update the display
+	  } else if (operators.length > 0) {
+	    operators.pop(); // Remove the last operator
+	    isOperate = false; // Allow entering a new number after removing an operator
+	    textbox.value = textbox.value.slice(0, -1); // Update the display
+	  }
+	}
 
 	function calculateResult(values, operators) {
 	  let result = 0;
-    result = parseFloat(values[0]);
+	  result = parseFloat(values[0]);
 	  for (let i = 1; i < values.length; i++) {
 	    let nextValue = parseFloat(values[i]);
 	    switch (operators[i-1]) {
