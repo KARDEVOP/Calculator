@@ -1,0 +1,53 @@
+.number, .operator, .dot, .clear, .calculate, .backSpace {
+  width: 60px; /* Increased width for better mobile interaction */
+  height: 60px; /* Added height for better mobile interaction */
+  font-size: 20px; /* Increased font size for better visibility */
+  margin: 5px; /* Added margin for spacing */
+  border-radius: 5px; /* Added border radius to shape the calculator container */
+
+}
+body {
+  background-color: rgb(194, 221, 226); /* Added background color for the page */
+}
+
+h1 {
+  text-align: center; /* Centered the h1 header */
+}
+
+.row {
+  display: flex;
+  justify-content: center; /* Centered the buttons */
+}
+
+.calculator {
+  border: 2px solid black; /* Added border to style the calculator container */
+  border-radius: 5px; /* Added border radius to shape the calculator container */
+  width: auto; /* Adjusted width to auto for better mobile responsiveness */
+  max-width: 320px; /* Set a max-width for larger screens */
+  padding: 10px; /* Added padding for internal spacing */
+  margin: auto; /* Centered the calculator on the page */
+  background-color: rgb(93, 131, 144); /* Changed background color for better visibility */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 5); /* Added box shadow for a subtle effect */
+}
+
+.textbox {
+  width: calc(100% - 65px); /* Adjusted width to be responsive, accounting for padding */
+  height: 50px;
+  margin-bottom: 10px;
+  margin-left: 25px; /* Moved to right by aligning to the right edge */
+  font-size: 18px; /* Increased font size for better readability */
+  padding: 5px; /* Added padding for internal spacing */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Added box shadow for a subtle effect */
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+}
+
+.calculate {
+  width: 130px; /* Adjusted width to span two columns */
+  margin-left: 25px; /* Moved to right by aligning to the right edge */
+}
+
+.backSpace {
+  width: 130px; /* Made width consistent with other buttons */
+  margin-left: 0px; /* Moved to right by aligning to the right edge */
+}
