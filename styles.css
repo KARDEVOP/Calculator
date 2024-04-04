@@ -40,6 +40,7 @@ h1 {
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Added box shadow for a subtle effect */
   color: rgb(255, 255, 255);
   font-weight: bold;
+  overflow: auto;
 }
 
 .calculate {
