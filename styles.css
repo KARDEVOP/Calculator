@@ -38,8 +38,8 @@ h1 {
   font-size: 18px; /* Increased font size for better readability */
   padding: 5px; /* Added padding for internal spacing */
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Added box shadow for a subtle effect */
-  color: rgb(255, 255, 255);
   font-weight: bold;
+  color: rgb(0, 0, 0);
   overflow: auto;
 }
 
